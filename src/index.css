@@ -1,0 +1,67 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --dark-bg: #202124;
+}
+.mylistcontainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  background-color: var(--dark-bg);
+  margin: 0px;
+  border-radius: 14px;
+  width: 280px;
+}
+.mylist {
+  position: absolute;
+  top: 90px;
+  left: 20px;
+  right: 20px;
+  background-color: var(--dark-bg);
+  color: white;
+  margin: 0px;
+}
+.myrow {
+  text-align: left;
+}
+
+body {
+  margin: 0px;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.def {
+  position: absolute;
+  left: 300px;
+  right: 10px;
+  top: 70px;
+  bottom: 10px;
+  background-color: var(--dark-bg);
+  border-radius: 14px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
