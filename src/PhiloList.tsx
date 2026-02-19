@@ -32,7 +32,11 @@ interface ResponseData {
   arrOptions: Array<PhiloRowItem>;
 }
 
-const PhiloList = () => {
+interface PhiloListProps {
+  onWordSelect: (id: number) => void;
+}
+
+const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<ResponseData>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -80,11 +84,13 @@ const PhiloList = () => {
     results: ResponseData | undefined;
   }>) {
     if (results !== undefined) {
+      const wordId = results.arrOptions[index][0];
       return (
         <div
           className="philorow"
-          data-wordid={results.arrOptions[index][0]}
+          data-wordid={wordId}
           style={style}
+          onClick={() => onWordSelect(wordId)}
         >
           {results.arrOptions[index][1]}
         </div>
