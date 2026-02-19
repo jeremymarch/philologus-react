@@ -35,7 +35,11 @@
 .myrow {
   text-align: left;
 }
-
+.searchInput {
+  position: relative;
+  top: 80px;
+  left: 20px;
+}
 body {
   margin: 0px;
   display: block;

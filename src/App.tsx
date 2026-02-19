@@ -1,5 +1,6 @@
 import "./App.css";
 import PaddedList from "./MyList";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const names: string[] = [
   "Apple",
   "Orange",
@@ -36,11 +37,9 @@ const names: string[] = [
   "Banana",
 ];
 function App() {
-  //const [count, setCount] = useState(0);
-
   return (
     <>
-      <PaddedList names={names} />
+      <PaddedList />
       <div className="def"></div>
     </>
   );
