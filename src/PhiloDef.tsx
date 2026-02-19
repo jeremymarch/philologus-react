@@ -38,16 +38,14 @@ const PhiloDef = ({ wordId, lexicon }: PhiloDefProps) => {
   }, [wordId, lexicon]);
 
   return (
-    <div
-      className="philodef"
-      dangerouslySetInnerHTML={{
-        __html: loading
-          ? "Loading..."
-          : error
-            ? error
-            : definition || "Select a word",
-      }}
-    />
+    <div className="philodefcontainer">
+      <div
+        className="philodef"
+        dangerouslySetInnerHTML={{
+          __html: loading ? "Loading..." : error ? error : definition || "",
+        }}
+      />
+    </div>
   );
 };
 
