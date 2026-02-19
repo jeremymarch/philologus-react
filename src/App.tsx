@@ -1,11 +1,12 @@
 import "./App.css";
 import PhiloList from "./PhiloList";
+import PhiloDef from "./PhiloDef";
 
 function App() {
   return (
     <>
       <PhiloList />
-      <div className="philodef"></div>
+      <PhiloDef wordId={null} />
     </>
   );
 }
