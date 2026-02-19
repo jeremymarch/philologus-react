@@ -4,12 +4,20 @@ import PhiloList from "./PhiloList";
 import PhiloDef from "./PhiloDef";
 
 function App() {
-  const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
+  const [selectedWord, setSelectedWord] = useState<{
+    id: number;
+    lexicon: string;
+  } | null>(null);
 
   return (
     <>
-      <PhiloList onWordSelect={setSelectedWordId} />
-      <PhiloDef wordId={selectedWordId} />
+      <PhiloList
+        onWordSelect={(id, lexicon) => setSelectedWord({ id, lexicon })}
+      />
+      <PhiloDef
+        wordId={selectedWord?.id ?? null}
+        lexicon={selectedWord?.lexicon ?? null}
+      />
     </>
   );
 }

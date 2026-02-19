@@ -33,7 +33,7 @@ interface ResponseData {
 }
 
 interface PhiloListProps {
-  onWordSelect: (id: number) => void;
+  onWordSelect: (id: number, lexicon: string) => void;
 }
 
 const PhiloList = ({ onWordSelect }: PhiloListProps) => {
@@ -89,8 +89,9 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         <div
           className="philorow"
           data-wordid={wordId}
+          data-lexicon="lsj"
           style={style}
-          onClick={() => onWordSelect(wordId)}
+          onClick={() => onWordSelect(wordId, "lsj")}
         >
           {results.arrOptions[index][1]}
         </div>

@@ -1,11 +1,14 @@
 interface PhiloDefProps {
   wordId: number | null;
+  lexicon: string | null;
 }
 
-const PhiloDef = ({ wordId }: PhiloDefProps) => {
+const PhiloDef = ({ wordId, lexicon }: PhiloDefProps) => {
   return (
     <div className="philodef">
-      {wordId !== null ? `Selected Word ID: ${wordId}` : "Select a word"}
+      {wordId !== null
+        ? `Selected Word ID: ${wordId}, Lexicon: ${lexicon}`
+        : "Select a word"}
     </div>
   );
 };
