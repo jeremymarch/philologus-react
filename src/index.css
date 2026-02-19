@@ -42,6 +42,28 @@
     url("assets/newathu5_8.woff") format("woff"),
     url("assets/newathu5_8.ttf") format("ttf");
 }
+.philobuttons {
+  display: flex;
+  margin: 15px;
+  height: 26px;
+}
+.philobuttons button {
+  flex: 1;
+  flex-basis: auto;
+  font-family: helvetica, arial, sans-serif;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.dark .philobuttons button {
+  background-color: white;
+  color: black;
+}
+.dark .philobuttons button.active {
+  background-color: #444;
+  color: white;
+  border: 1px solid white;
+}
 
 .philolistcontainer {
   position: absolute;
@@ -56,7 +78,7 @@
 
 .philolist {
   position: absolute;
-  top: 90px;
+  top: 10px;
   left: 20px;
   right: 20px;
   background-color: var(--dark-bg);
@@ -70,7 +92,7 @@
 
 .philosearch {
   position: relative;
-  top: 80px;
+  top: 0px;
   left: 20px;
   border: 2px solid white;
   border-radius: 14px;
