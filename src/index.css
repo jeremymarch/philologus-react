@@ -72,6 +72,11 @@
   position: relative;
   top: 80px;
   left: 20px;
+  border: 2px solid white;
+  border-radius: 14px;
+  height: 24px;
+  padding: 3px 10px;
+  width: calc(100% - 62px);
 }
 
 .philodefcontainer {
