@@ -105,6 +105,58 @@ body {
     NewAthenaUnicode, WebNewAthenaUnicode, helvetica, arial, san-serif;
 }
 
+#logocontainer {
+  z-index: 999;
+  position: absolute;
+  top: 11px;
+  right: 0px;
+  height: 52px;
+  width: 243px;
+  margin: 0px;
+  padding: 0px;
+}
+#logo {
+  color: black;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  font-size: 28pt;
+  font-family: helvetica, arial, sans-serif;
+}
+.dark #logo {
+  color: white;
+}
+#hamburgercontainer {
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  right: 1rem;
+  bottom: 4px;
+}
+#hamburger {
+  z-index: 999;
+  position: relative;
+}
+#hamburger {
+  background-color: white;
+  border: 1px solid #666;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+#hamburger rect {
+  fill: black;
+}
+.dark #hamburger {
+  background-color: black;
+}
+.dark #hamburger rect {
+  fill: white;
+}
+
 .ftrowheaderlink {
   color: blue;
   cursor: pointer;
