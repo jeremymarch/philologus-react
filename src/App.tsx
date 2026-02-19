@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <PhiloList />
-      <div className="def"></div>
+      <div className="philodef"></div>
     </>
   );
 }

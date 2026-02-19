@@ -3,7 +3,7 @@ import { List, type RowComponentProps } from "react-window";
 import axios from "axios";
 import { useDebounce } from "./useDebounce";
 
-type Item = [number, string];
+type PhiloRowItem = [number, string];
 
 // {
 //   "selectId": 110755,
@@ -29,10 +29,9 @@ interface ResponseData {
   lastPage: number;
   lastPageUp: number;
   query: string;
-  arrOptions: Array<Item>;
+  arrOptions: Array<PhiloRowItem>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PhiloList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<ResponseData>();
@@ -41,19 +40,19 @@ const PhiloList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 250);
 
   const fetchData = useCallback(async (query: string) => {
-    if (!query) {
-      setResults(undefined);
-      return;
-    }
+    // if (!query) {
+    //   setResults(undefined);
+    //   return;
+    // }
 
     setIsLoading(true);
     setError(null);
     try {
       const response = await axios.get<ResponseData>(
-        `query?n=101&idprefix=lemmata&x=0.17297130510758496&requestTime=1771393815484&page=0&mode=context&query=%7B%22regex%22%3A0%2C%22lexicon%22%3A%22lsj%22%2C%22tag_id%22%3A0%2C%22root_id%22%3A0%2C%22w%22%3A%22${query}%22%7D`,
+        `query?&query=%7B%22regex%22%3A0%2C%22lexicon%22%3A%22lsj%22%2C%22tag_id%22%3A0%2C%22root_id%22%3A0%2C%22w%22%3A%22${query}%22%7D&n=101&idprefix=lemmata&x=0.17297130510758496&requestTime=1771393815484&page=0&mode=context`,
       );
       setResults(response.data);
     } catch (err) {
@@ -73,7 +72,7 @@ const PhiloList = () => {
     setSearchTerm(event.target.value);
   };
 
-  function RowComponent({
+  function PhiloListRowComponent({
     index,
     results,
     style,
@@ -106,7 +105,7 @@ const PhiloList = () => {
       />
       <List
         rowProps={{ results }}
-        rowComponent={RowComponent}
+        rowComponent={PhiloListRowComponent}
         rowCount={results?.arrOptions?.length ?? 0}
         rowHeight={40}
         style={{ width: 260, height: "calc(100% - 126px)" }}
