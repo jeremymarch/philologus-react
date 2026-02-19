@@ -88,6 +88,13 @@
 
 .philorow {
   text-align: left;
+  padding-left: 10px;
+  box-sizing: border-box;
+  line-height: 2.5;
+}
+
+.selectedrow {
+  background-color: #444;
 }
 
 .philosearch {

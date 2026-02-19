@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { List, type RowComponentProps } from "react-window";
 import axios from "axios";
 import { useDebounce } from "./useDebounce";
@@ -44,9 +44,10 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
+  const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
-
+  const listRef = useRef(null);
   const fetchData = useCallback(
     async (query: string, currentLexicon: string) => {
       // if (!query) {
@@ -61,6 +62,10 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
           `query?&query=%7B%22regex%22%3A0%2C%22lexicon%22%3A%22${currentLexicon}%22%2C%22tag_id%22%3A0%2C%22root_id%22%3A0%2C%22w%22%3A%22${query}%22%7D&n=101&idprefix=lemmata&x=0.17297130510758496&requestTime=1771393815484&page=0&mode=context`,
         );
         setResults(response.data);
+        if (response.data.selectId !== null) {
+          setSelectedWordId(response.data.selectId);
+        }
+        //scrollTo
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -74,6 +79,13 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   useEffect(() => {
     fetchData(debouncedSearchTerm, lexicon);
   }, [debouncedSearchTerm, lexicon, fetchData]);
+
+  // Effect to handle scrolling after data is fetched
+  // useEffect(() => {
+  //   if (!isLoading && results.length > 0 && listRef.current) {
+  //     listRef.current.scrollToItem(targetRowIndex, "start"); // Align 'start', 'center', 'end', or 'auto'
+  //   }
+  // }, [isLoading, data]); // Run when loading state or data changes
 
   // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,13 +101,17 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   }>) {
     if (results !== undefined) {
       const wordId = results.arrOptions[index][0];
+      const isSelected = wordId === selectedWordId;
       return (
         <div
-          className="philorow"
+          className={`philorow ${isSelected ? "selectedrow" : ""}`}
           data-wordid={wordId}
           data-lexicon={lexicon}
           style={style}
-          onClick={() => onWordSelect(wordId, lexicon)}
+          onClick={() => {
+            setSelectedWordId(wordId);
+            onWordSelect(wordId, lexicon);
+          }}
         >
           {results.arrOptions[index][1]}
         </div>
