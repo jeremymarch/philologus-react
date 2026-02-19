@@ -13,7 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   --dark-bg: #202124;
 }
-.mylistcontainer {
+
+.philolistcontainer {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -23,7 +24,8 @@
   border-radius: 14px;
   width: 280px;
 }
-.mylist {
+
+.philolist {
   position: absolute;
   top: 90px;
   left: 20px;
@@ -32,22 +34,18 @@
   color: white;
   margin: 0px;
 }
-.myrow {
+
+.philorow {
   text-align: left;
 }
-.searchInput {
+
+.philosearch {
   position: relative;
   top: 80px;
   left: 20px;
 }
-body {
-  margin: 0px;
-  display: block;
-  width: 100vw;
-  height: 100vh;
-}
 
-.def {
+.philodef {
   position: absolute;
   left: 300px;
   right: 10px;
@@ -55,6 +53,13 @@ body {
   bottom: 10px;
   background-color: var(--dark-bg);
   border-radius: 14px;
+}
+
+body {
+  margin: 0px;
+  display: block;
+  width: 100vw;
+  height: 100vh;
 }
 
 @media (prefers-color-scheme: light) {

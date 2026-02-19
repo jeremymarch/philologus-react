@@ -1,45 +1,10 @@
 import "./App.css";
-import PaddedList from "./MyList";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const names: string[] = [
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-  "Apple",
-  "Orange",
-  "Banana",
-];
+import PhiloList from "./PhiloList";
+
 function App() {
   return (
     <>
-      <PaddedList />
+      <PhiloList />
       <div className="def"></div>
     </>
   );

@@ -1,10 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { List, type RowComponentProps } from "react-window";
 import axios from "axios";
-import { useDebounce } from "./useDebounce"; // Import the custom hook
+import { useDebounce } from "./useDebounce";
 
-// Define the type for items returned from your server
 type Item = [number, string];
+
+// {
+//   "selectId": 110755,
+//     "error": "",
+//     "wtprefix": "lemmata",
+//     "nocache": 0,
+//     "container": "lemmataContainer",
+//     "requestTime": 1771459324274,
+//     "page": 0,
+//     "lastPage": 0,
+//     "lastPageUp": 0,
+//       "query": "φερ",
+//     "arrOptions": [[110654, "φατνωτός"], [110655, "φατός"
 
 interface ResponseData {
   selectId: number;
@@ -20,34 +32,8 @@ interface ResponseData {
   arrOptions: Array<Item>;
 }
 
-// {
-//   "selectId": 110755,
-//     "error": "",
-//     "wtprefix": "lemmata",
-//     "nocache": 0,
-//     "container": "lemmataContainer",
-//     "requestTime": 1771459324274,
-//     "page": 0,
-//     "lastPage": 0,
-//     "lastPageUp": 0,
-//       "query": "φερ",
-//     "arrOptions": [[110654, "φατνωτός"], [110655, "φατός"
-
-// class RowComponent2 extends React.Component<RowComponentProps<Array<Item>>> {
-//   render() {
-//     const { index, style, data } = this.props;
-//     const item = data[index];
-//     return (
-//       <div className="myrow flex items-center justify-between" style={style}>
-//         {item[1]}
-//         {/*<div className="text-slate-500 text-xs">{`${index + 1} of ${names.length}`}</div>*/}
-//       </div>
-//     );
-//   }
-// }
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const PaddedList = () => {
+const PhiloList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<ResponseData>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,10 +41,8 @@ const PaddedList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
-  // Debounce the search term with a 500ms delay
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // Function to fetch data from your API
   const fetchData = useCallback(async (query: string) => {
     if (!query) {
       setResults(undefined);
@@ -68,7 +52,6 @@ const PaddedList = () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Replace with your actual API endpoint
       const response = await axios.get<ResponseData>(
         `query?n=101&idprefix=lemmata&x=0.17297130510758496&requestTime=1771393815484&page=0&mode=context&query=%7B%22regex%22%3A0%2C%22lexicon%22%3A%22lsj%22%2C%22tag_id%22%3A0%2C%22root_id%22%3A0%2C%22w%22%3A%22${query}%22%7D`,
       );
@@ -81,7 +64,6 @@ const PaddedList = () => {
     }
   }, []);
 
-  // Effect to call the fetch function when the debounced search term changes
   useEffect(() => {
     fetchData(debouncedSearchTerm);
   }, [debouncedSearchTerm, fetchData]);
@@ -100,24 +82,23 @@ const PaddedList = () => {
   }>) {
     if (results !== undefined) {
       return (
-        <div className="flex items-center justify-between" style={style}>
+        <div
+          className="philorow"
+          data-wordid={results.arrOptions[index][0]}
+          style={style}
+        >
           {results.arrOptions[index][1]}
-          {/*<div className="text-slate-500 text-xs">{`${index + 1} of ${names.length}`}</div>*/}
         </div>
       );
     } else {
-      return (
-        <div className="flex items-center justify-between" style={style}>
-          Loading...
-        </div>
-      );
+      return null;
     }
   }
 
   return (
-    <div className="mylistcontainer">
+    <div className="philolistcontainer">
       <input
-        className="searchInput"
+        className="philosearch"
         type="text"
         placeholder="Search..."
         value={searchTerm}
@@ -129,10 +110,10 @@ const PaddedList = () => {
         rowCount={results?.arrOptions?.length ?? 0}
         rowHeight={40}
         style={{ width: 260, height: "calc(100% - 126px)" }}
-        className="mylist"
+        className="philolist"
       />
     </div>
   );
 };
 
-export default PaddedList;
+export default PhiloList;
