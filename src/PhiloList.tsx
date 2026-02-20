@@ -89,6 +89,16 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     }
   }, [results, listRef]);
 
+  // Effect to scroll to manually selected word
+  useEffect(() => {
+    if (selectedWordId !== null && results?.arrOptions && listRef.current) {
+      const index = results.arrOptions.findIndex((item) => item[0] === selectedWordId);
+      if (index !== -1) {
+        listRef.current.scrollToRow({ index, align: "center" });
+      }
+    }
+  }, [selectedWordId, results, listRef]);
+
   useEffect(() => {
     if (!searchTerm && listRef.current && (results?.arrOptions?.length ?? 0) > 0) {
       listRef.current.scrollToRow({ index: 0, align: "start" });
@@ -103,6 +113,32 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Escape") {
       setSearchTerm("");
+    } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      if (!results || !results.arrOptions || results.arrOptions.length === 0) return;
+
+      event.preventDefault();
+
+      let newIndex = -1;
+      if (selectedWordId === null) {
+        newIndex = 0;
+      } else {
+        const currentIndex = results.arrOptions.findIndex((item) => item[0] === selectedWordId);
+        if (currentIndex === -1) {
+          newIndex = 0;
+        } else {
+          if (event.key === "ArrowDown") {
+            newIndex = Math.min(currentIndex + 1, results.arrOptions.length - 1);
+          } else {
+            newIndex = Math.max(currentIndex - 1, 0);
+          }
+        }
+      }
+
+      if (newIndex !== -1) {
+        const [newWordId] = results.arrOptions[newIndex];
+        setSelectedWordId(newWordId);
+        onWordSelect(newWordId, lexicon);
+      }
     }
   };
 
