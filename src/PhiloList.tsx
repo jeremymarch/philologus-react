@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { List, type RowComponentProps, useListRef, type ListImperativeAPI } from "react-window";
+import {
+  List,
+  type RowComponentProps,
+  useListRef,
+  type ListImperativeAPI,
+} from "react-window";
 import axios from "axios";
 import { useDebounce } from "./useDebounce";
 
@@ -83,8 +88,15 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   }, [debouncedSearchTerm, lexicon, fetchData]);
 
   useEffect(() => {
-    if (results?.arrOptions && results.selectId !== undefined && results.selectId !== null && listRef.current) {
-      const index = results.arrOptions.findIndex((item) => item[0] === results.selectId);
+    if (
+      results?.arrOptions &&
+      results.selectId !== undefined &&
+      results.selectId !== null &&
+      listRef.current
+    ) {
+      const index = results.arrOptions.findIndex(
+        (item) => item[0] === results.selectId,
+      );
       if (index !== -1) {
         listRef.current.scrollToRow({ index, align: "center" });
       }
@@ -94,7 +106,9 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   // Effect to scroll to manually selected word
   useEffect(() => {
     if (selectedWordId !== null && results?.arrOptions && listRef.current) {
-      const index = results.arrOptions.findIndex((item) => item[0] === selectedWordId);
+      const index = results.arrOptions.findIndex(
+        (item) => item[0] === selectedWordId,
+      );
       if (index !== -1) {
         listRef.current.scrollToRow({ index, align: "center" });
       }
@@ -102,7 +116,11 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   }, [selectedWordId, results, listRef]);
 
   useEffect(() => {
-    if (results?.query === "" && listRef.current && (results?.arrOptions?.length ?? 0) > 0) {
+    if (
+      results?.query === "" &&
+      listRef.current &&
+      (results?.arrOptions?.length ?? 0) > 0
+    ) {
       listRef.current.scrollToRow({ index: 0, align: "start" });
     }
   }, [results, listRef]);
@@ -116,7 +134,8 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     if (event.key === "Escape") {
       setSearchTerm("");
     } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      if (!results || !results.arrOptions || results.arrOptions.length === 0) return;
+      if (!results || !results.arrOptions || results.arrOptions.length === 0)
+        return;
 
       event.preventDefault();
 
@@ -124,12 +143,17 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
       if (selectedWordId === null) {
         newIndex = 0;
       } else {
-        const currentIndex = results.arrOptions.findIndex((item) => item[0] === selectedWordId);
+        const currentIndex = results.arrOptions.findIndex(
+          (item) => item[0] === selectedWordId,
+        );
         if (currentIndex === -1) {
           newIndex = 0;
         } else {
           if (event.key === "ArrowDown") {
-            newIndex = Math.min(currentIndex + 1, results.arrOptions.length - 1);
+            newIndex = Math.min(
+              currentIndex + 1,
+              results.arrOptions.length - 1,
+            );
           } else {
             newIndex = Math.max(currentIndex - 1, 0);
           }
@@ -207,7 +231,6 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         ref={inputRef}
         className="philosearch"
         type="text"
-        placeholder="Search..."
         value={searchTerm}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
