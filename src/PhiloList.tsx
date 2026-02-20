@@ -61,6 +61,10 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     onWordSelectRef.current = onWordSelect;
   }, [onWordSelect]);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const transliterateToGreek = (text: string) => {
     const map: { [key: string]: string } = {
       a: "α",
