@@ -89,6 +89,12 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     }
   }, [results, listRef]);
 
+  useEffect(() => {
+    if (!searchTerm && listRef.current && (results?.arrOptions?.length ?? 0) > 0) {
+      listRef.current.scrollToRow({ index: 0, align: "start" });
+    }
+  }, [searchTerm, listRef, results]);
+
   // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
