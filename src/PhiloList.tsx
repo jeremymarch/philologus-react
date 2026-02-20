@@ -100,6 +100,12 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     setSearchTerm(event.target.value);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      setSearchTerm("");
+    }
+  };
+
   function PhiloListRowComponent({
     index,
     results,
@@ -160,6 +166,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         placeholder="Search..."
         value={searchTerm}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
       <List
         listRef={listRef}
