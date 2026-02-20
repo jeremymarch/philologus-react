@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { List, type RowComponentProps } from "react-window";
+import React, { useState, useEffect, useCallback } from "react";
+import { List, type RowComponentProps, useListRef, type ListImperativeAPI } from "react-window";
 import axios from "axios";
 import { useDebounce } from "./useDebounce";
 
@@ -47,7 +47,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
-  const listRef = useRef(null);
+  const listRef = useListRef(null as unknown as ListImperativeAPI);
   const fetchData = useCallback(
     async (query: string, currentLexicon: string) => {
       // if (!query) {
@@ -80,12 +80,14 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     fetchData(debouncedSearchTerm, lexicon);
   }, [debouncedSearchTerm, lexicon, fetchData]);
 
-  // Effect to handle scrolling after data is fetched
-  // useEffect(() => {
-  //   if (!isLoading && results.length > 0 && listRef.current) {
-  //     listRef.current.scrollToItem(targetRowIndex, "start"); // Align 'start', 'center', 'end', or 'auto'
-  //   }
-  // }, [isLoading, data]); // Run when loading state or data changes
+  useEffect(() => {
+    if (results?.arrOptions && results.selectId !== undefined && results.selectId !== null && listRef.current) {
+      const index = results.arrOptions.findIndex((item) => item[0] === results.selectId);
+      if (index !== -1) {
+        listRef.current.scrollToRow({ index, align: "center" });
+      }
+    }
+  }, [results, listRef]);
 
   // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,6 +156,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         onChange={handleInputChange}
       />
       <List
+        listRef={listRef}
         rowProps={{ results }}
         rowComponent={PhiloListRowComponent}
         rowCount={results?.arrOptions?.length ?? 0}
