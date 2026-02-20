@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { List, type RowComponentProps, useListRef, type ListImperativeAPI } from "react-window";
 import axios from "axios";
 import { useDebounce } from "./useDebounce";
@@ -48,6 +48,8 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
   const listRef = useListRef(null as unknown as ListImperativeAPI);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const fetchData = useCallback(
     async (query: string, currentLexicon: string) => {
       // if (!query) {
@@ -172,7 +174,12 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   }
 
   return (
-    <div className="philolistcontainer">
+    <div
+      className="philolistcontainer"
+      onClick={() => {
+        inputRef.current?.focus();
+      }}
+    >
       <div className="philobuttons">
         <button
           onClick={() => setLexicon("lsj")}
@@ -197,6 +204,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         </button>
       </div>
       <input
+        ref={inputRef}
         className="philosearch"
         type="text"
         placeholder="Search..."
