@@ -103,18 +103,6 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     }
   }, [results, listRef]);
 
-  // Effect to scroll to manually selected word
-  useEffect(() => {
-    if (selectedWordId !== null && results?.arrOptions && listRef.current) {
-      const index = results.arrOptions.findIndex(
-        (item) => item[0] === selectedWordId,
-      );
-      if (index !== -1) {
-        listRef.current.scrollToRow({ index, align: "center" });
-      }
-    }
-  }, [selectedWordId, results, listRef]);
-
   useEffect(() => {
     if (
       results?.query === "" &&
@@ -164,6 +152,9 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         const [newWordId] = results.arrOptions[newIndex];
         setSelectedWordId(newWordId);
         onWordSelect(newWordId, lexicon);
+        if (listRef.current) {
+          listRef.current.scrollToRow({ index: newIndex, align: "center" });
+        }
       }
     }
   };
