@@ -203,6 +203,18 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     if (event.key === "Escape") {
       setSearchTerm("");
       setShouldScrollToTop(true);
+    } else if (event.key === "1") {
+      event.preventDefault();
+      setLexicon("lsj");
+      setSearchTerm("");
+    } else if (event.key === "2") {
+      event.preventDefault();
+      setLexicon("slater");
+      setSearchTerm("");
+    } else if (event.key === "3") {
+      event.preventDefault();
+      setLexicon("ls");
+      setSearchTerm("");
     } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       if (!results || !results.arrOptions || results.arrOptions.length === 0)
         return;
