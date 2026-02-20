@@ -258,21 +258,30 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
     >
       <div className="philobuttons">
         <button
-          onClick={() => setLexicon("lsj")}
+          onClick={() => {
+            setLexicon("lsj");
+            setSearchTerm("");
+          }}
           disabled={lexicon === "lsj"}
           className={lexicon === "lsj" ? "active" : ""}
         >
           LSJ
         </button>
         <button
-          onClick={() => setLexicon("slater")}
+          onClick={() => {
+            setLexicon("slater");
+            setSearchTerm("");
+          }}
           disabled={lexicon === "slater"}
           className={lexicon === "slater" ? "active" : ""}
         >
           Slater
         </button>
         <button
-          onClick={() => setLexicon("ls")}
+          onClick={() => {
+            setLexicon("ls");
+            setSearchTerm("");
+          }}
           disabled={lexicon === "ls"}
           className={lexicon === "ls" ? "active" : ""}
         >
