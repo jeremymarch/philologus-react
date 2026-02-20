@@ -50,10 +50,16 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
   const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
+  const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
   const listRef = useListRef(null as unknown as ListImperativeAPI);
   const inputRef = useRef<HTMLInputElement>(null);
+  const onWordSelectRef = useRef(onWordSelect);
+
+  useEffect(() => {
+    onWordSelectRef.current = onWordSelect;
+  }, [onWordSelect]);
 
   const transliterateToGreek = (text: string) => {
     const map: { [key: string]: string } = {
@@ -128,17 +134,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         setResults(response.data);
         if (response.data.selectId !== null) {
           setSelectedWordId(response.data.selectId);
-          onWordSelect(response.data.selectId, currentLexicon);
-
-          // Initial scroll to center for the fetched results
-          if (listRef.current && response.data.arrOptions) {
-            const index = response.data.arrOptions.findIndex(
-              (item) => item[0] === response.data.selectId,
-            );
-            if (index !== -1) {
-              listRef.current.scrollToRow({ index, align: "center" });
-            }
-          }
+          onWordSelectRef.current(response.data.selectId, currentLexicon);
         }
       } catch (err) {
         setError("Failed to fetch data");
@@ -156,13 +152,43 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
 
   useEffect(() => {
     if (
+      results?.query !== "" &&
+      results?.selectId !== undefined &&
+      results.selectId !== null &&
+      results.arrOptions &&
+      listRef.current
+    ) {
+      const index = results.arrOptions.findIndex(
+        (item) => item[0] === results.selectId,
+      );
+      if (index !== -1) {
+        listRef.current.scrollToRow({ index, align: "center" });
+      }
+    }
+  }, [results, listRef]);
+
+  useEffect(() => {
+    if (
       results?.query === "" &&
       listRef.current &&
       (results?.arrOptions?.length ?? 0) > 0
     ) {
       listRef.current.scrollToRow({ index: 0, align: "start" });
+      setShouldScrollToTop(false);
     }
   }, [results, listRef]);
+
+  useEffect(() => {
+    if (
+      shouldScrollToTop &&
+      results?.query === "" &&
+      listRef.current &&
+      (results?.arrOptions?.length ?? 0) > 0
+    ) {
+      listRef.current.scrollToRow({ index: 0, align: "start" });
+      setShouldScrollToTop(false);
+    }
+  }, [shouldScrollToTop, results, listRef]);
 
   // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,6 +202,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Escape") {
       setSearchTerm("");
+      setShouldScrollToTop(true);
     } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       if (!results || !results.arrOptions || results.arrOptions.length === 0)
         return;
