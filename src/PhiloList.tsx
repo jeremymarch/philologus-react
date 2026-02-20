@@ -55,6 +55,63 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const listRef = useListRef(null as unknown as ListImperativeAPI);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const transliterateToGreek = (text: string) => {
+    const map: { [key: string]: string } = {
+      a: "α",
+      b: "β",
+      g: "γ",
+      d: "δ",
+      e: "ε",
+      z: "ζ",
+      h: "η",
+      q: "θ",
+      i: "ι",
+      k: "κ",
+      l: "λ",
+      m: "μ",
+      n: "ν",
+      c: "ξ",
+      o: "ο",
+      p: "π",
+      r: "ρ",
+      s: "σ",
+      t: "τ",
+      u: "υ",
+      f: "φ",
+      x: "χ",
+      y: "ψ",
+      w: "ω",
+      A: "Α",
+      B: "Β",
+      G: "Γ",
+      D: "Δ",
+      E: "Ε",
+      Z: "Ζ",
+      H: "Η",
+      Q: "Θ",
+      I: "Ι",
+      K: "Κ",
+      L: "Λ",
+      M: "Μ",
+      N: "Ν",
+      C: "Ξ",
+      O: "Ο",
+      P: "Π",
+      R: "Ρ",
+      S: "Σ",
+      T: "Τ",
+      U: "Υ",
+      F: "Φ",
+      X: "Χ",
+      Y: "Ψ",
+      W: "Ω",
+    };
+    return text
+      .split("")
+      .map((char) => map[char] || char)
+      .join("");
+  };
+
   const fetchData = useCallback(
     async (query: string, currentLexicon: string) => {
       // if (!query) {
@@ -115,7 +172,11 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
 
   // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    let value = event.target.value;
+    if (lexicon === "lsj" || lexicon === "slater") {
+      value = transliterateToGreek(value);
+    }
+    setSearchTerm(value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
