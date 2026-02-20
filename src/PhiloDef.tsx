@@ -42,7 +42,7 @@ const PhiloDef = ({ wordId, lexicon }: PhiloDefProps) => {
       <div
         className="philodef"
         dangerouslySetInnerHTML={{
-          __html: loading ? "Loading..." : error ? error : definition || "",
+          __html: loading ? "Loading..." : error ? "" : definition || "",
         }}
       />
     </div>

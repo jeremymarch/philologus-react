@@ -128,8 +128,18 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         setResults(response.data);
         if (response.data.selectId !== null) {
           setSelectedWordId(response.data.selectId);
+          onWordSelect(response.data.selectId, currentLexicon);
+
+          // Initial scroll to center for the fetched results
+          if (listRef.current && response.data.arrOptions) {
+            const index = response.data.arrOptions.findIndex(
+              (item) => item[0] === response.data.selectId,
+            );
+            if (index !== -1) {
+              listRef.current.scrollToRow({ index, align: "center" });
+            }
+          }
         }
-        //scrollTo
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -143,22 +153,6 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   useEffect(() => {
     fetchData(debouncedSearchTerm, lexicon);
   }, [debouncedSearchTerm, lexicon, fetchData]);
-
-  useEffect(() => {
-    if (
-      results?.arrOptions &&
-      results.selectId !== undefined &&
-      results.selectId !== null &&
-      listRef.current
-    ) {
-      const index = results.arrOptions.findIndex(
-        (item) => item[0] === results.selectId,
-      );
-      if (index !== -1) {
-        listRef.current.scrollToRow({ index, align: "center" });
-      }
-    }
-  }, [results, listRef]);
 
   useEffect(() => {
     if (
