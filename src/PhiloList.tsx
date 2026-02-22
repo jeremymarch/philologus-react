@@ -52,7 +52,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
   const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 200);
+  const debouncedSearchTerm = useDebounce(searchTerm, 350);
   const listRef = useListRef(null as unknown as ListImperativeAPI);
   const inputRef = useRef<HTMLInputElement>(null);
   const onWordSelectRef = useRef(onWordSelect);
