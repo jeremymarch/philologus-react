@@ -51,6 +51,7 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
   const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
+  const [scrollOnEdge, setScrollOnEdge] = useState(true); // New state variable
 
   const debouncedSearchTerm = useDebounce(searchTerm, 350);
   const listRef = useListRef(null as unknown as ListImperativeAPI);
@@ -230,7 +231,32 @@ const PhiloList = ({ onWordSelect }: PhiloListProps) => {
         setSelectedWordId(newWordId);
         onWordSelect(newWordId, lexicon);
         if (listRef.current) {
-          listRef.current.scrollToRow({ index: newIndex, align: "center" });
+          if (scrollOnEdge) {
+            const listElement = listRef.current.element;
+            if (listElement) {
+              const rowHeight = 40; // From List component prop
+              const clientHeight = listElement.clientHeight;
+              const currentScrollTop = listElement.scrollTop;
+
+              const firstVisibleIndex = Math.floor(currentScrollTop / rowHeight);
+              const lastVisibleIndex = Math.floor((currentScrollTop + clientHeight) / rowHeight) - 1;
+
+              if (event.key === "ArrowDown") {
+                // If new selection is below the second-to-last visible row
+                if (newIndex > lastVisibleIndex - 1) {
+                  listElement.scrollTop += rowHeight;
+                }
+              } else if (event.key === "ArrowUp") {
+                // If new selection is above the second visible row
+                if (newIndex < firstVisibleIndex + 1) {
+                  listElement.scrollTop -= rowHeight;
+                }
+              }
+            }
+          } else {
+            // Original behavior: always scroll to center
+            listRef.current.scrollToRow({ index: newIndex, align: "center" });
+          }
         }
       }
     }
