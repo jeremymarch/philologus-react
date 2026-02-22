@@ -12,7 +12,7 @@ const PhiloDef = ({ wordId, lexicon }: PhiloDefProps) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (wordId === null || lexicon === null) {
+    if (wordId === null || wordId < 1 || lexicon === null) {
       setDefinition(null);
       return;
     }
